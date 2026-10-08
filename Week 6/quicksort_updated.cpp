@@ -1,6 +1,10 @@
 // Quick Sort (Hoare partition)
 // quicksort.cpp
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <chrono>
+#include <algorithm>
 using namespace std;
 
 template <class T>
@@ -29,7 +33,7 @@ int Partition(T A[], int low, int high) {
 
     do 
     {
-        do { i++; } while (A[i] < pivot);//take care the duplicates that why not <=
+        do { i++; } while (A[i] < pivot); //take care the duplicates that why not <=
         do { j--; } while (A[j] > pivot);
         if (i < j) 
             swapdata(&A[i], &A[j]);
@@ -54,10 +58,21 @@ int main() {
 
     cout << "Before Sorting:\n";
     Display(A, n);
+    cout << endl;
 
+    // measure quicksort time
+    auto startQuickSort = chrono::high_resolution_clock::now();
     QuickSort(A, 0, n - 1);
+    auto stopQuickSort = chrono::high_resolution_clock::now();
+
+
+    auto durationQuickSort =
+        chrono::duration_cast<chrono::nanoseconds>(stopQuickSort - startQuickSort);
 
     cout << "\nAfter Sorting:\n";
     Display(A, n);
+    cout << endl;
+    cout << "Time Taken: " << durationQuickSort.count() << " nanoseconds" << endl << endl;
+
     return 0;
 }
